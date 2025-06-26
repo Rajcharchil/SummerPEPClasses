@@ -1,0 +1,35 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class commonExecutor {
+    public static void main(String[] args) {
+        int max = 10; 
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        Runnable evenPrinter = () -> {
+            for (int i = 0; i <= max; i += 2) {
+                System.out.println("Even: " + i);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        };
+
+        Runnable oddPrinter = () -> {
+            for (int i = 1; i <= max; i += 2) {
+                System.out.println("Odd: " + i);
+                try {
+                    Thread.sleep(100); 
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        };
+
+        executor.submit(evenPrinter);
+        executor.submit(oddPrinter);
+        executor.shutdown();
+    }
+} 
